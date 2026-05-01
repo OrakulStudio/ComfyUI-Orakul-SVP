@@ -1,3 +1,92 @@
+[English Version Below] | [Русская версия ниже]
+# ComfyUI-Orakul-SVP
+
+**Master RAW Export Pipeline: 16-bit TIFF + Standard PNG Output**
+
+> A professional-grade solution for preserving every bit of dynamic range. This node simultaneously saves standard PNG previews to `/output` and uncompressed 16-bit RAW TIFFs to `/output/temp_svp`. Optimized for hardware-maxing workflows, accumulation-ready, and built for the 4090 era.
+
+---
+
+## The Technical Edge
+
+Standard ComfyUI nodes limit your creativity to 8-bit containers, causing significant data loss in highlights and shadows. For stock photography, high-end printing, and professional color grading, 8-bit is not an option.
+
+**OrakulSVPNode** establishes a new standard for your workflow:
+
+- ✅ **16-bit Master RAW:** Extracts the full `0–65535` range from float tensors. Zero compression, zero artifacts.
+- ✅ **Accumulation Mode:** Engineered to hoard data. It never overwrites previous runs, using intelligent sequential numbering from `0001` to `9999`.
+- ✅ **Dual-Path Output:** Saves a standard PNG to the root `/output` (for web/preview) and a 16-bit TIFF to `/output/temp_svp` (for the deep archive).
+- ✅ **Full Batch Support:** Handles large batches with ease, assigning a unique RAW file to every frame in the sequence.
+- ✅ **Industrial Logging:** Clean, multi-language console feedback (EN/UA/RU) with visual status icons.
+
+---
+
+## Directory Structure
+
+ComfyUI/
+├── output/
+│   ├── ComfyUI_00001_.png      <-- Standard 8-bit Preview
+│   └── temp_svp/               <-- Master RAW Storage
+│       ├── ORAKUL_RAW_0001.tif
+│       ├── ORAKUL_RAW_0002.tif
+│       └── ORAKUL_RAW_XXXX.tif
+
+
+---
+
+## Specifications
+
+| Parameter | Specification |
+|:---|:---|
+| **Format** | TIFF (Tagged Image File Format) |
+| **Bit Depth** | 16-bit Integer (Unsigned) |
+| **Compression** | None (Zero Loss) |
+| **Color Space** | RGB (BGR Internal Mapping) |
+| **Naming Convention** | `ORAKUL_RAW_####.tif` (Sequential) |
+| **Logic** | Accumulative (Files persist between sessions) |
+
+---
+
+## File Weight Comparison
+
+*Resolution: 2752×1536 (High-Res AI Generation)*
+
+| Format | Bit Depth | Size (Approx.) |
+|:---|:---|:---|
+| **Standard PNG** | 8-bit | ~4–6 MB |
+| **Orakul Master RAW** | 16-bit TIFF | ~24–25 MB |
+
+---
+
+## Console Output Example
+
+```text
+🛠️⚙️Orakul Engine: MASTER RAW (TIFF 16-BIT) mode is active. Accumulation mode.
+🎞️🛠️Orakul Engine: Adding a Batch (5 frames) to existing ones...
+ -> 👍Added: ORAKUL_RAW_0042.tif
+ -> 👍Added: ORAKUL_RAW_0043.tif
+ -> 👍Added: ORAKUL_RAW_0044.tif
+ ...
+Compatibility
+ComfyUI: All current builds
+
+Python: 3.10+
+
+Hardware: Highly optimized for NVIDIA RTX 40-series (24GB VRAM recommended for 16K workflows)
+
+Dependencies: torch, numpy, opencv-python
+
+Target Audience
+Stock Photographers: Direct upload to Adobe Stock, Getty, and Shutterstock with maximum color fidelity.
+
+Print Professionals: Pre-press ready files that require no further conversion.
+
+AI Engineers: Those who demand the impossible from their hardware and refuse to settle for compressed visuals.
+
+Developed at Orakul Studio Chernihiv, Ukraine No compromises
+
+[Русская версия]
+
 # ComfyUI-Orakul-SVP
 
 **Dual Export Node for ComfyUI — PNG to /output + 16-bit RAW TIFF to /output/temp_svp**
