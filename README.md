@@ -1,4 +1,4 @@
-[English Version] | [Русская версия ниже](русская-версия)
+[English Version] | [Русская версия ниже](#русская-версия)
 # ComfyUI-Orakul-SVP
 
 **Dual Export Node for ComfyUI — PNG to /output + 16-bit RAW TIFF to /output/temp_svp**
@@ -174,7 +174,8 @@ Flux2 · ComfyUI · RTX 4090 · No quantization · No compromises
 MIT License — use it, fork it, improve it.
 
 
-[русская-версия](#Русская версия ниже)
+# Русская версия
+
 # ComfyUI-Orakul-SVP
 
 **Dual Export Node for ComfyUI — PNG to /output + 16-bit RAW TIFF to /output/temp_svp**
