@@ -1,4 +1,4 @@
-[English Version] | [Русская версия ниже](#README_RU)
+[English Version] | [Русская версия ниже](#README_RU.md)
 # ComfyUI-Orakul-SVP
 
 **Dual Export Node for ComfyUI — PNG to /output + 16-bit RAW TIFF to /output/temp_svp**
