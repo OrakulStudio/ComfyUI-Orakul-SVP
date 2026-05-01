@@ -1,4 +1,4 @@
-[English Version Below] | [Русская версия ниже]
+[English Version] | [Русская версия ниже]
 # ComfyUI-Orakul-SVP
 
 **Master RAW Export Pipeline: 16-bit TIFF + Standard PNG Output**
