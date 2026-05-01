@@ -1,0 +1,2 @@
+# ComfyUI-Orakul-SVP-Dual-Export-Node-for-ComfyUI-PNG-to-output-16-bit-RAW-TIFF-to-output-temp_svp
+Orakul SVP: The 16-bit Master Export Standard. Unlocking the full 16-bit potential of Flux and SDXL. Automatically accumulates your batch runs into a professional RAW TIFF library. Designed for those who demand the impossible from their hardware. If your workflow doesn't start with 16-bit RAW, you're just playing around.
