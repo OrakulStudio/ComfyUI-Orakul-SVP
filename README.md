@@ -1,7 +1,7 @@
 [English Version] | [Русская версия ниже](#русская-версия)
 # ComfyUI-Orakul-SVP
 
-**Professional Dual/Triple Export Node — PNG + TIFF 16-bit + EXR 32-bit float**
+**Professional Dual/Triple Export Node  PNG + TIFF 16-bit + EXR 32-bit float**
 
 > One node. Three formats. Zero compression. Zero compromise.  
 > Designed for Flux2 native resolution workflows on high-end hardware.
@@ -11,7 +11,7 @@
 
 ## What It Does
 
-ComfyUI saves PNG in 8-bit by default. That's fine for web. It's not fine for print, stock, or HDR post-processing — you lose half the tonal range the moment you click Save.
+ComfyUI saves PNG in 8-bit by default. That's fine for web. It's not fine for print, stock, or HDR post-processing  you lose half the tonal range the moment you click Save.
 
 **OrakulSVPNode** plugs directly into your workflow after KSampler and silently exports master files in parallel:
 
@@ -199,7 +199,7 @@ MIT — use it, fork it, improve it.
 
 ## Что это делает
 
-ComfyUI по умолчанию сохраняет PNG в 8 бит. Для веба — нормально. Для печати, стока или HDR постобработки — нет: теряется половина тонального диапазона сразу при сохранении.
+ComfyUI по умолчанию сохраняет PNG в 8 бит. Для веба  нормально. Для печати, стока или HDR постобработки  нет: теряется половина тонального диапазона сразу при сохранении.
 
 **OrakulSVPNode** встаёт в пайплайн после KSampler и молча экспортирует мастер-файлы параллельно:
 
@@ -209,7 +209,7 @@ ComfyUI по умолчанию сохраняет PNG в 8 бит. Для ве�
 | TIFF | 16-bit RAW | Печать, Photoshop, Lightroom, мастера для Adobe Stock |
 | EXR | 32-bit float | HDR-композитинг, VFX, Nuke, DaVinci Resolve |
 
-Все три одновременно — если нужно. Или любая комбинация. Переключается в UI ноды.
+Все три одновременно  если нужно. Или любая комбинация. Переключается в UI ноды.
 
 ---
 
@@ -298,7 +298,7 @@ KSampler → OrakulSVPNode → Save Image
 
 ## Почему subprocess для EXR?
 
-OpenCV требует установки `OPENCV_IO_ENABLE_OPENEXR=1` **до** импорта библиотеки. ComfyUI импортирует cv2 при запуске — задолго до вызова вашей ноды. Установка переменной в runtime не имеет эффекта.
+OpenCV требует установки `OPENCV_IO_ENABLE_OPENEXR=1` **до** импорта библиотеки. ComfyUI импортирует cv2 при запуске  задолго до вызова вашей ноды. Установка переменной в runtime не имеет эффекта.
 
 Решение: записать крохотный изолированный Python-скрипт и выполнить его через `subprocess.run()` с интерпретатором ComfyUI (`sys.executable`). Subprocess стартует чистым, устанавливает переменную первым делом, записывает EXR. Временный скрипт и временный `.npy` файл удаляются сразу после.
 
