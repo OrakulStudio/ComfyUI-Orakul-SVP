@@ -270,6 +270,10 @@ pip install opencv-python-headless
 ```
 KSampler → OrakulSVPNode → Save Image
 ```
+## Простой и чистый интерфейс
+<img width="967" height="531" alt="Снимок экрана 2026-05-03 092559" src="https://github.com/user-attachments/assets/0fdf5c6f-ba58-4f40-a24e-3654e690dc85" />
+
+
 
 1. Добавить **OrakulSVPNode** в workflow
 2. Подключить `IMAGE` от KSampler (или любого источника)
@@ -334,6 +338,10 @@ RU 🎞️🛠️Orakul Engine: Добавление батча (2 кадров)
  ->RU 👍 TIFF 16-bit сохранен: ORAKUL_RAW_0002.tif
  ->RU 👍 EXR 32-bit float сохранен: ORAKUL_RAW_0002.exr
 ```
+
+## Профессиональная трехъязычная система логирования (RU/UA/EN)
+<img width="3133" height="1726" alt="Снимок экрана 2026-05-03 103633" src="https://github.com/user-attachments/assets/a273382a-bf77-4868-9e57-e5e875c7f9cd" />
+
 
 ---
 
