@@ -143,6 +143,9 @@ RU 🎞️🛠️Orakul Engine: Добавление батча (2 кадров)
  ->EN 👍 TIFF 16-bit saved: ORAKUL_RAW_0002.tif
  ->EN 👍 EXR 32-bit float saved: ORAKUL_RAW_0002.exr
 ```
+## Professional trilingual logging system (RU/UA/EN)
+<img width="3133" height="1726" alt="Снимок экрана 2026-05-03 103633" src="https://github.com/user-attachments/assets/3b23e6fb-ba85-4cee-ba12-ca3c00b3c132" />
+
 
 ---
 
