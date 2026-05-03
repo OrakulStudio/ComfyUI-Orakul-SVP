@@ -188,27 +188,41 @@ MIT — use it, fork it, improve it.
 
 # ComfyUI-Orakul-SVP
 
-**Dual Export Node for ComfyUI — PNG to /output + 16-bit RAW TIFF to /output/temp_svp**
+**Профессиональный экспорт из ComfyUI — PNG + TIFF 16-bit + EXR 32-bit float**
 
-> Простое решение для сохранения результатов генерации в двух форматах одновременно:  
-> стандартный PNG в папку ComfyUI `/output` и архивный 16-bit TIFF без сжатия в `/output/temp_svp`.  
-> Поддерживает batch, накопительный режим и сквозную нумерацию файлов.
+> Одна нода. Три формата. Без сжатия. Без компромиссов.  
+> Создано для Flux2 в нативном разрешении на серьёзном железе.
+
+🇬🇧 [English version](README_EN.md)
 
 ---
 
-## Зачем это нужно
+## Что это делает
 
-ComfyUI по умолчанию сохраняет PNG в 8 бит. Для стоковой фотографии, печати и профессиональной постобработки этого недостаточно — теряется половина тонального диапазона.
+ComfyUI по умолчанию сохраняет PNG в 8 бит. Для веба — нормально. Для печати, стока или HDR постобработки — нет: теряется половина тонального диапазона сразу при сохранении.
 
-**OrakulSVPNode** решает это в одну ноду:
+**OrakulSVPNode** встаёт в пайплайн после KSampler и молча экспортирует мастер-файлы параллельно:
 
-- ✅ PNG сохраняется стандартно через ComfyUI (`/output`) — для превью, веба, стока
-- ✅ 16-bit RAW TIFF сохраняется в `/output/temp_svp` — рядом с PNG, в одном месте
-- ✅ Нет сжатия TIFF (`COMPRESSION = NONE`) — нулевых потерь данных
-- ✅ Полный диапазон `0–65535` из float тензора `0.0–1.0`
-- ✅ Полная поддержка batch — каждый кадр сохраняется отдельным файлом
-- ✅ Накопительный режим — старые файлы не удаляются, сквозная нумерация `ORAKUL_RAW_0001.tif`
-- ✅ Трёхязычные логи в консоли — UA / RU / EN
+| Формат | Битность | Применение |
+|---|---|---|
+| PNG | 8-bit | Веб, превью, загрузка на сток (через Save Image) |
+| TIFF | 16-bit RAW | Печать, Photoshop, Lightroom, мастера для Adobe Stock |
+| EXR | 32-bit float | HDR-композитинг, VFX, Nuke, DaVinci Resolve |
+
+Все три одновременно — если нужно. Или любая комбинация. Переключается в UI ноды.
+
+---
+
+## Возможности
+
+- ✅ **TIFF 16-bit** — `uint16`, нулевое сжатие (`IMWRITE_TIFF_COMPRESSION = 1`), полный диапазон `0–65535`
+- ✅ **EXR 32-bit float** — настоящий HDR, `float32`, линейные данные света сохранены полностью
+- ✅ **Полная поддержка batch** — каждый кадр батча сохраняется отдельным файлом
+- ✅ **Накопительный режим** — существующие файлы не удаляются, нумерация продолжается
+- ✅ **Раздельное управление** — TIFF и EXR включаются независимо в UI ноды
+- ✅ **Безопасная запись EXR** — изолированный subprocess устанавливает `OPENCV_IO_ENABLE_OPENEXR=1` до загрузки cv2, обходя уже инициализированную среду ComfyUI
+- ✅ **Автозачистка** — временные файлы EXR subprocess удаляются после каждого кадра
+- ✅ **Трёхязычные логи** — RU / UA / EN
 
 ---
 
@@ -217,10 +231,12 @@ ComfyUI по умолчанию сохраняет PNG в 8 бит. Для ст�
 ```
 ComfyUI/
 ├── output/
-│   ├── ComfyUI_00001_.png       ← стандартный PNG от Save Image
+│   ├── ComfyUI_00001_.png          ← 8-bit PNG через Save Image ноду
 │   └── temp_svp/
-│       ├── ORAKUL_RAW_0001.tif  ← 16-bit RAW TIFF
+│       ├── ORAKUL_RAW_0001.tif     ← 16-bit RAW TIFF
+│       ├── ORAKUL_RAW_0001.exr     ← 32-bit float EXR
 │       ├── ORAKUL_RAW_0002.tif
+│       ├── ORAKUL_RAW_0002.exr
 │       └── ...
 └── custom_nodes/
     └── ComfyUI-Orakul-SVP/
@@ -233,90 +249,84 @@ ComfyUI/
 
 ## Установка
 
-**1. Клонировать в папку custom_nodes:**
-
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/YOUR_USERNAME/ComfyUI-Orakul-SVP
-```
-
-**2. Убедиться что установлен OpenCV:**
-
-```bash
+git clone https://github.com/OrakulStudio/ComfyUI-Orakul-SVP
 pip install opencv-python-headless
 ```
 
-**3. Перезапустить ComfyUI.**
-
-Нода появится в категории **`Orakul Studio`**.
+Перезапустить ComfyUI. Нода появится в категории **`Orakul Studio`**.
 
 ---
 
 ## Использование
 
-1. Добавить ноду **OrakulSVPNode** в workflow
-2. Подключить выход `IMAGE` от `KSampler` (или любого другого источника)
-3. Подключить выход ноды к стандартному **`Save Image`** узлу ComfyUI
-4. Запустить генерацию
-
 ```
 KSampler → OrakulSVPNode → Save Image
 ```
 
-**Результат:**
-- PNG → `ComfyUI/output/` (через Save Image как обычно)
-- TIFF 16-bit → `ComfyUI/output/temp_svp/ORAKUL_RAW_0001.tif`, `_0002.tif`, ...
+1. Добавить **OrakulSVPNode** в workflow
+2. Подключить `IMAGE` от KSampler (или любого источника)
+3. Выход ноды подключить к стандартному **Save Image**
+4. Включить `save_tiff` и/или `save_exr` в UI ноды
+5. Запустить генерацию
+
+**Входы ноды:**
+
+| Вход | Тип | По умолчанию | Описание |
+|---|---|---|---|
+| `images` | IMAGE | — | Тензор изображения из пайплайна |
+| `save_tiff` | BOOLEAN | `True` | Сохранить 16-bit TIFF в temp_svp |
+| `save_exr` | BOOLEAN | `False` | Сохранить 32-bit EXR в temp_svp |
 
 ---
 
 ## Накопительный режим
 
-Нода работает в режиме **накопления** — файлы не перезаписываются и не удаляются.
-
-При каждом новом прогоне нода находит максимальный существующий индекс и продолжает нумерацию:
+Нода никогда не удаляет существующие файлы. Каждый прогон продолжает нумерацию с места остановки:
 
 ```
-Прогон 1 (batch=1): ORAKUL_RAW_0001.tif
-Прогон 2 (batch=4): ORAKUL_RAW_0002.tif, _0003.tif, _0004.tif, _0005.tif
-Прогон 3 (batch=1): ORAKUL_RAW_0006.tif
+Прогон 1 (batch=2, TIFF+EXR): ORAKUL_RAW_0001.tif, ORAKUL_RAW_0001.exr
+                                ORAKUL_RAW_0002.tif, ORAKUL_RAW_0002.exr
+Прогон 2 (batch=1, только TIFF): ORAKUL_RAW_0003.tif
+Прогон 3 (batch=1, только EXR):  ORAKUL_RAW_0004.exr
 ```
 
-Чтобы начать нумерацию заново — просто вручную очистите папку `output/temp_svp/`.
+Для сброса — вручную очистить папку `output/temp_svp/`.
+
+---
+
+## Почему subprocess для EXR?
+
+OpenCV требует установки `OPENCV_IO_ENABLE_OPENEXR=1` **до** импорта библиотеки. ComfyUI импортирует cv2 при запуске — задолго до вызова вашей ноды. Установка переменной в runtime не имеет эффекта.
+
+Решение: записать крохотный изолированный Python-скрипт и выполнить его через `subprocess.run()` с интерпретатором ComfyUI (`sys.executable`). Subprocess стартует чистым, устанавливает переменную первым делом, записывает EXR. Временный скрипт и временный `.npy` файл удаляются сразу после.
+
+Никаких внешних зависимостей. Никакого monkey-patching. Никаких хаков ломающих другие ноды.
 
 ---
 
 ## Технические детали
 
-| Параметр | Значение |
-|---|---|
-| Формат TIFF | 16-bit unsigned integer (uint16) |
-| Сжатие | NONE (IMWRITE_TIFF_COMPRESSION = 1) |
-| Цветовое пространство | RGB → BGR (OpenCV) |
-| Диапазон | 0.0–1.0 float → 0–65535 uint16 |
-| Нумерация | `ORAKUL_RAW_0001.tif` (4 знака, сквозная) |
-| Размер файла | ~24–25 MB при 2752×1536 |
-| Batch | Полная поддержка, каждый кадр отдельный файл |
-
----
-
-## Пример веса файлов
-
-| Формат | Разрешение | Размер |
+| Параметр | TIFF | EXR |
 |---|---|---|
-| PNG 8-bit | 2752×1536 | ~4–6 MB |
-| TIFF 16-bit RAW | 2752×1536 | ~24–25 MB |
+| Битность | 16-bit uint | 32-bit float |
+| Сжатие | NONE | OpenEXR default |
+| Цветовое пространство | RGB→BGR (OpenCV) | RGB→BGR (OpenCV) |
+| Диапазон значений | 0–65535 | 0.0–1.0 float |
+| Размер файла @ 2752×1536 | ~24–25 MB | ~48–50 MB |
 
 ---
 
 ## Пример вывода в консоли
 
 ```
-🛠️⚙️Orakul Engine: MASTER RAW (TIFF 16-BIT) mode is active. Accumulation mode.
-🎞️🛠️Orakul Engine: Adding a Batch (4 frames) to existing ones...
- -> 👍Added: ORAKUL_RAW_0003.tif
- -> 👍Added: ORAKUL_RAW_0004.tif
- -> 👍Added: ORAKUL_RAW_0005.tif
- -> 👍Added: ORAKUL_RAW_0006.tif
+RU 🛠️⚙️Orakul Engine: Режим MASTER RAW инициализирован TIFF(16-bit) EXR(32-bit float).
+RU 🎞️🛠️Orakul Engine: Добавление батча (2 кадров)...
+ ->RU 👍 TIFF 16-bit сохранен: ORAKUL_RAW_0001.tif
+ ->RU 👍 EXR 32-bit float сохранен: ORAKUL_RAW_0001.exr
+ ->RU 👍 TIFF 16-bit сохранен: ORAKUL_RAW_0002.tif
+ ->RU 👍 EXR 32-bit float сохранен: ORAKUL_RAW_0002.exr
 ```
 
 ---
@@ -326,26 +336,26 @@ KSampler → OrakulSVPNode → Save Image
 - ComfyUI (все актуальные версии)
 - Python 3.10+
 - PyTorch (CUDA / CPU)
-- OpenCV `opencv-python` или `opencv-python-headless`
+- `opencv-python` или `opencv-python-headless`
 - Windows / Linux
 
 ---
 
 ## Для кого это
 
-- **Стоковые фотографы** — загружаете на Adobe Stock, Shutterstock, Getty с максимальным качеством
+- **Стоковые фотографы** — загружаете TIFF мастера на Adobe Stock, Shutterstock, Getty
 - **Полиграфия** — TIFF 16-bit принимается напрямую в препресс без конвертации
-- **Постобработка** — открываете в Photoshop / Lightroom с полным тональным диапазоном
-- **Архивирование** — храните мастер-файлы без деградации качества
+- **VFX / композитинг** — EXR 32-bit для Nuke, DaVinci Resolve, Blender compositor
+- **Архивирование** — храните мастера с полными данными, экспортируйте в любой формат позже
 
 ---
 
 ## Roadmap
 
-- [ ] Выбор папки сохранения через параметр ноды
-- [ ] Опция сжатия LZW/ZIP для экономии места
-- [ ] Метаданные EXIF/IPTC в TIFF (для стока)
-- [ ] Поддержка EXR 32-bit для HDR workflow
+- [ ] Выбор папки через параметр ноды
+- [ ] Опция сжатия LZW/ZIP для TIFF
+- [ ] Встраивание EXIF/IPTC метаданных (для стоковых воркфлоу)
+- [ ] Многослойный EXR с раздельными каналами R/G/B/A
 
 ---
 
@@ -358,7 +368,8 @@ Flux2 · ComfyUI · RTX 4090 · No quantization · No compromises
 
 ## Лицензия
 
-MIT License — используй, форкай, улучшай.
+MIT — используй, форкай, улучшай.
+
 
 [Back to English / Наверх](#comfyui-orakul-svp)
 
