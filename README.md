@@ -76,6 +76,9 @@ Restart ComfyUI. Node appears in **`Orakul Studio`** category.
 ```
 KSampler → OrakulSVPNode → Save Image
 ```
+## Simple and clean interface
+<img width="967" height="531" alt="Снимок экрана 2026-05-03 092559" src="https://github.com/user-attachments/assets/a29702bb-a593-472e-826f-d1b05bfa6c3b" />
+
 
 1. Add **OrakulSVPNode** to your workflow
 2. Connect `IMAGE` from KSampler (or any image source)
