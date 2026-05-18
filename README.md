@@ -70,9 +70,6 @@ pip install opencv-python-headless
 
 Restart ComfyUI. Node appears in **`Orakul Studio`** category.
 
----
-
-## Usage
 
 For Stability Matrix Users (Important Fix)
 If you encounter the ModuleNotFoundError: No module named 'cv2' error, the standard terminal command will not work. You must install the dependency through the Matrix GUI:
@@ -88,6 +85,9 @@ Type opencv-python-headless into the install field and click Install.
 Restart ComfyUI.
 
 Once installed, the nodes will appear in the Orakul Studio category.
+---
+
+## Usage
 
 ```
 KSampler → OrakulSVPNode → Save Image
