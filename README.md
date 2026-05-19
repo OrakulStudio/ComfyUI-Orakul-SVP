@@ -62,7 +62,7 @@ ComfyUI/
 ## Installation
 
 ### Standard ComfyUI
-Open your terminal and run the following commands:
+
 ```bash
 cd ComfyUI/custom_nodes
 git clone [https://github.com/OrakulStudio/ComfyUI-Orakul-SVP](https://github.com/OrakulStudio/ComfyUI-Orakul-SVP)
