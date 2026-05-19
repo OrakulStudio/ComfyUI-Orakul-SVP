@@ -65,7 +65,6 @@ ComfyUI/
 cd ComfyUI/custom_nodes
 git clone [https://github.com/OrakulStudio/ComfyUI-Orakul-SVP](https://github.com/OrakulStudio/ComfyUI-Orakul-SVP)
 pip install opencv-python-headless
----
 
 ## Usage
 
