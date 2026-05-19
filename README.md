@@ -59,14 +59,12 @@ ComfyUI/
 
 ---
 
-## Installation
+# Installation
 
 ```bash
 cd ComfyUI/custom_nodes
 git clone [https://github.com/OrakulStudio/ComfyUI-Orakul-SVP](https://github.com/OrakulStudio/ComfyUI-Orakul-SVP)
 pip install opencv-python-headless
-
-Restart ComfyUI. Node appears in **`Orakul Studio`** category.
 ---
 
 ## Usage
@@ -187,7 +185,7 @@ Flux2 · ComfyUI · RTX 4090 · No quantization · No compromises
 MIT — use it, fork it, improve it.
 
 
-# русская версия  
+#русская версия  
 [Back to English / Наверх](#comfyui-orakul-svp)
 
 # ComfyUI-Orakul-SVP
