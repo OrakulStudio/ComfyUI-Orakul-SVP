@@ -187,7 +187,7 @@ Flux2 · ComfyUI · RTX 4090 · No quantization · No compromises
 MIT — use it, fork it, improve it.
 
 
-#русская-версия  
+# русская версия  
 [Back to English / Наверх](#comfyui-orakul-svp)
 
 # ComfyUI-Orakul-SVP
