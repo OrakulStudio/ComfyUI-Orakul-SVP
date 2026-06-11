@@ -67,6 +67,9 @@ git clone [https://github.com/OrakulStudio/ComfyUI-Orakul-SVP](https://github.co
 pip install opencv-python-headless
 
 ```
+Node installation:
+<img width="3840" height="2160" alt="Снимок экрана (374)" src="https://github.com/user-attachments/assets/8d209388-d561-4abd-b309-9d52893bb9d3" />
+
 
 ```
 KSampler → OrakulSVPNode → Save Image
