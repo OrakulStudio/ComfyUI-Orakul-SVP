@@ -64,6 +64,8 @@ ComfyUI/
 ```bash
 cd ComfyUI/custom_nodes
 git clone [https://github.com/OrakulStudio/ComfyUI-Orakul-SVP](https://github.com/OrakulStudio/ComfyUI-Orakul-SVP)
+
+If venv is already activated ((venv) is lit at the beginning of the line)
 pip install opencv-python-headless
 
 ```
